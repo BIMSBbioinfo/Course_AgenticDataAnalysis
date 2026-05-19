@@ -53,9 +53,9 @@ folder" to "committed, reproducible analysis". The unifying idea: the
 figure can be walked back to the user request that produced it.
 
 ```
-/research-setup ─► /brainstorm ─► /grill-me ─► /plan-convert ─► /plan-exec
-   scaffold        ideate         resolve         intent              code
-                                  TBDs            (canvas)            + commit
+/research-setup ─► /brainstorm ─► /plan-convert ─► /grill-me ─► /plan-exec
+   scaffold        ideate          intent             resolve         code
+                                   (canvas)           canvas TBDs     + commit
 ```
 
 ### 1. `/research-setup` — scaffold a new project
@@ -89,23 +89,7 @@ you reply `accept`, `refine <note>`, `skip`, or `stop`. Accepted ideas
 are appended to `Prompts/brainstorm.md`. Use this when you want a
 sounding-board pass before committing to implementation work.
 
-### 3. `/grill-me` — resolve TBDs before coding
-
-```
-/grill-me                                          # grill the whole plan
-/grill-me Prompts/canvases/003_de-analysis.md      # one focal canvas
-/grill-me Prompts/research_plan.md                 # the constraints
-/grill-me controls                                 # one theme, all canvases
-```
-
-Socratic interrogation, **one question at a time**, each with a
-recommended answer. Reply with `accept` / `override <answer>` / `skip` /
-`stop`. Answers are written back into the target file in place — TBDs
-become concrete values (thresholds, normalization methods, controls).
-Run this *before* `/plan-exec`, because `plan-exec` will halt on any
-canvas that still contains `TBD` tokens in its Operations section.
-
-### 4. `/plan-convert` — turn a Todo item into a canvas
+### 3. `/plan-convert` — turn a Todo item into a canvas
 
 ```
 /plan-convert next             # take the first ## Todo item
@@ -121,7 +105,25 @@ standard sections: **Question**, **Entities**, **Approach**,
 Unspecified parameters are written as `TBD — confirm with user` rather
 than guessed. The item is moved from `## Todo` to `## In progress` with
 a `→ Prompts/canvases/NNN_slug.md` backlink. **No code is generated
-yet** — that's the next step.
+yet** — the next step is `/grill-me` to clear any TBDs, then
+`/plan-exec` to write the code.
+
+### 4. `/grill-me` — resolve canvas TBDs before coding
+
+```
+/grill-me Prompts/canvases/003_de-analysis.md      # one focal canvas (typical)
+/grill-me                                          # grill the whole plan
+/grill-me Prompts/research_plan.md                 # the constraints
+/grill-me controls                                 # one theme, all canvases
+```
+
+Socratic interrogation, **one question at a time**, each with a
+recommended answer. Reply with `accept` / `override <answer>` / `skip` /
+`stop`. Answers are written back into the target file in place — TBDs
+become concrete values (thresholds, normalization methods, controls).
+Typically run on the canvas just produced by `/plan-convert`, since
+`/plan-exec` will halt on any canvas that still contains `TBD` tokens
+in its Operations section.
 
 ### 5. `/plan-exec` — implement the canvas and commit
 
@@ -148,7 +150,6 @@ provenance chain from figure → canvas → prompt → commit.
 # … fill in Prompts/research_plan.md …
 /brainstorm                                        # ideate new analyses
 /triage                                            # promote prompts to Todo
-/grill-me Prompts/research_plan.md                 # tighten constraints
 /plan-convert next                                 # Todo  → canvas
 /grill-me Prompts/canvases/001_*.md                # resolve canvas TBDs
 /plan-exec next                                    # canvas → code + commit
