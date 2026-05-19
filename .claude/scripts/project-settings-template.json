@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /home/vfranke/.claude/scripts/prompt-log.py 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd=$(python3 -c 'import json,sys; print(json.load(sys.stdin)[\"tool_input\"].get(\"command\",\"\"))' | tr '\\n' ' '); [ -d ./Prompts ] && printf '%s\\n' \"$cmd\" | grep -qE '\\b(Rscript|R45|python3?|ipython|snakemake|make)\\b|\\b(bash|sh) +[^ ]+\\.(sh|bash)\\b|\\./[^ ]+\\.(sh|R|r|py|Rmd)\\b' && { mkdir -p ./Prompts/Logs; printf -- '- %s — `%s`\\n' \"$(date +%Y-%m-%dT%H:%M:%S)\" \"$cmd\" >> ./Prompts/Logs/RUN_LOG.md; } || true"
+          }
+        ]
+      }
+    ]
+  }
+}

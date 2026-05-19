@@ -1,0 +1,95 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(R *)",
+      "Bash(Rscript *)",
+      "Bash(R45 *)",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(pip *)",
+      "Bash(pip3 *)",
+      "Bash(bash *)",
+      "Bash(sh *)",
+      "Bash(chmod *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(ln *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(less *)",
+      "Bash(wc *)",
+      "Bash(sort *)",
+      "Bash(uniq *)",
+      "Bash(cut *)",
+      "Bash(paste *)",
+      "Bash(tr *)",
+      "Bash(sed *)",
+      "Bash(awk *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(xargs *)",
+      "Bash(which *)",
+      "Bash(pwd)",
+      "Bash(cd *)",
+      "Bash(echo *)",
+      "Bash(printf *)",
+      "Bash(touch *)",
+      "Bash(date *)",
+      "Bash(df *)",
+      "Bash(du *)",
+      "Bash(tar *)",
+      "Bash(gzip *)",
+      "Bash(gunzip *)",
+      "Bash(zcat *)",
+      "Bash(wget *)",
+      "Bash(curl *)",
+      "Bash(ssh *)",
+      "Bash(scp *)",
+      "Bash(rsync *)",
+      "Bash(diff *)",
+      "Bash(comm *)",
+      "Bash(tee *)",
+      "Bash(env *)",
+      "Bash(export *)",
+      "Bash(source *)",
+      "Bash(realpath *)",
+      "Bash(dirname *)",
+      "Bash(basename *)",
+      "Bash(git *)",
+      "Bash(samtools *)",
+      "Bash(bedtools *)",
+      "Bash(conda *)",
+      "Bash(guix *)",
+      "Bash(snakemake *)",
+      "Bash(tmux *)",
+      "Edit",
+      "Write",
+      "Read"
+    ]
+  },
+  "enabledPlugins": {
+    "code-review@claude-plugins-official": true
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark-ansi",
+  "statusLine": {
+    "type": "command",
+    "command": "bash /home/vfranke/.claude/statusline.sh"
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"Today is $(date '+%A %Y-%m-%d') (yymmdd: $(date '+%y%m%d'))\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+# Credentials and secrets
+.credentials.json
+
+# Session data and history
+history.jsonl
+sessions/
+debug/
+file-history/
+backups/
+cache/
+paste-cache/
+shell-snapshots/
+stats-cache.json
+telemetry/
+todos/
+tasks/
+plans/
+.last-cleanup
+
+# Project-specific data (contains conversation logs)
+projects/
+
+# Editor swap and backup files
+*.swp
+*.swo
+*.bak
+
+# Plugin runtime state (caches, marketplaces, install state)
+plugins/cache/
+plugins/marketplaces/
+plugins/install-counts-cache.json
+plugins/installed_plugins.json
+plugins/known_marketplaces.json
+plugins/blocklist.json
+mcp-needs-auth-cache.json
+
+# Keep skills, settings, commands, plugins
