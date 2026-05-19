@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bioinformatics — Bash, LLMs &amp; Agents · Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #FFFFFF;
+  --paper-2: #F0F0F0;
+  --ink: #000000;
+  --ink-soft: #555555;
+  --accent: #000000;
+  --accent-soft: #888888;
+  --correct: #000000;
+  --correct-bg: rgba(0, 0, 0, 0.05);
+  --rule: #000000;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(26,22,18,0.07) 1px, transparent 0);
+  background-size: 22px 22px;
+  background-attachment: fixed;
+}
+
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 72px 48px 96px;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.header {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 32px;
+  margin-bottom: 48px;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-size: clamp(40px, 7.5vw, 68px);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  margin: 0 0 22px 0;
+}
+
+h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.subtitle {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-size: 19px;
+  color: var(--ink-soft);
+  margin: 0 0 32px 0;
+  max-width: 540px;
+  line-height: 1.45;
+}
+
+.meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.meta span { display: inline-flex; gap: 8px; align-items: baseline; }
+.meta strong { color: var(--ink); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10.5px; }
+
+/* ── QUESTIONS ──────────────────────────────────────── */
+.question {
+  margin-bottom: 64px;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  padding-top: 8px;
+  border-top: 2px solid var(--accent);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.q-body { min-width: 0; }
+
+.q-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.q-text {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-variation-settings: "opsz" 48;
+  font-size: 22px;
+  line-height: 1.3;
+  margin: 0 0 22px 0;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+
+.q-text code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82em;
+  font-weight: 500;
+  background: var(--paper-2);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+.options { list-style: none; padding: 0; margin: 0; }
+.option {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  padding: 10px 14px;
+  margin: 3px -14px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, opacity 0.18s ease;
+  align-items: start;
+}
+.option:hover { background: var(--paper-2); }
+.opt-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  padding-top: 1px;
+}
+.opt-text { font-size: 16.5px; line-height: 1.45; }
+
+.opt-text code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: var(--paper-2);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+/* ── FOOTER ─────────────────────────────────────────── */
+.footer {
+  margin-top: 72px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── PRINT ──────────────────────────────────────────── */
+@media print {
+  body { background: white; background-image: none; }
+  .page { padding: 24px; max-width: 100%; }
+  .question { break-inside: avoid; page-break-inside: avoid; margin-bottom: 36px; }
+  .option { cursor: default; }
+}
+
+/* ── MOBILE ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .page { padding: 44px 22px 64px; }
+  .question { grid-template-columns: 1fr; gap: 10px; }
+  .q-num {
+    border-top: none;
+    border-left: 2px solid var(--accent);
+    padding: 0 0 0 10px;
+    padding-top: 0;
+  }
+  .meta { gap: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="eyebrow">
+      <span>Bioinformatics · Module Quiz</span>
+      <span>Single answer · 15 items</span>
+    </div>
+    <h1>Bash, <em>LLMs</em><br>&amp; Agents.</h1>
+    <p class="subtitle">A diagnostic on shell fundamentals, language-model architecture, and the practice of working with agentic systems in a research setting.</p>
+    <div class="meta">
+      <span><strong>Format</strong> Multiple choice</span>
+      <span><strong>Items</strong> 15</span>
+      <span><strong>Duration</strong> 15 min</span>
+    </div>
+  </header>
+
+  <!-- ════════════════════════ Q1 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 01</div>
+    <div class="q-body">
+      <div class="q-tag">Bash · environment</div>
+      <h3 class="q-text">Which best describes the <code>PATH</code> environment variable in Bash?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">A configuration file that stores user passwords.</span></li>
+        <li class="option correct"><span class="opt-letter">b</span><span class="opt-text">A list of directories that the shell searches when you type a command.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">The current working directory of the shell.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">The location where Bash stores its command history.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q2 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 02</div>
+    <div class="q-body">
+      <div class="q-tag">Bash · shell startup</div>
+      <h3 class="q-text">What is the role of <code>.bashrc</code>?</h3>
+      <ul class="options">
+        <li class="option correct"><span class="opt-letter">a</span><span class="opt-text">A script run automatically each time a new interactive Bash shell starts.</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">A list of every package installed on the system.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">A binary executed by the kernel at boot time.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">A log file that records the output of every command you run.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q3 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 03</div>
+    <div class="q-body">
+      <div class="q-tag">Bash · permissions</div>
+      <h3 class="q-text">What does <code>sudo</code> do?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">Switches the shell into read-only mode.</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">Permanently renames the current user account.</span></li>
+        <li class="option correct"><span class="opt-letter">c</span><span class="opt-text">Runs a single command with elevated (root) privileges.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">Suppresses all output of the following command.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q4 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 04</div>
+    <div class="q-body">
+      <div class="q-tag">Bash · sessions</div>
+      <h3 class="q-text">Which best describes <code>tmux</code>?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">A package manager for bioinformatics tools.</span></li>
+        <li class="option correct"><span class="opt-letter">b</span><span class="opt-text">A terminal multiplexer that keeps sessions alive after you disconnect from SSH.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">A text editor specifically designed for shell scripts.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">A backup utility that snapshots the user's home directory.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q5 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 05</div>
+    <div class="q-body">
+      <div class="q-tag">Bash · exit codes</div>
+      <h3 class="q-text">In Bash, what does an exit code of <code>0</code> conventionally mean?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">The command failed silently.</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">The command was interrupted by the user.</span></li>
+        <li class="option correct"><span class="opt-letter">c</span><span class="opt-text">The command completed successfully.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">The command is still running in the background.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q6 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 06</div>
+    <div class="q-body">
+      <div class="q-tag">LLM · reasoning models</div>
+      <h3 class="q-text">What distinguishes a reasoning model (e.g.&nbsp;chain-of-thought or adaptive-thinking models) from a standard LLM?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">It is trained without any data.</span></li>
+        <li class="option correct"><span class="opt-letter">b</span><span class="opt-text">Before producing the final answer it generates intermediate reasoning steps, and can spend more compute on harder problems.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">It can only solve mathematics problems.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">It abandons the transformer architecture entirely.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q7 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 07</div>
+    <div class="q-body">
+      <div class="q-tag">LLM · representation</div>
+      <h3 class="q-text">What is a "token" in the context of an LLM?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">An API authentication key.</span></li>
+        <li class="option correct"><span class="opt-letter">b</span><span class="opt-text">A sub-word unit of text that the model processes; pricing and latency scale with it.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">A single Python function call inside the model.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">A unit of GPU memory used to store weights.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q8 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 08</div>
+    <div class="q-body">
+      <div class="q-tag">LLM · mechanism</div>
+      <h3 class="q-text">What does the attention mechanism allow a transformer to do?</h3>
+      <ul class="options">
+        <li class="option correct"><span class="opt-letter">a</span><span class="opt-text">Weight relationships between tokens across the context, not only adjacent ones.</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">Skip training entirely and learn at inference time.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">Compute outputs without using any learned parameters.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">Read files directly from the local filesystem.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q9 ════════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 09</div>
+    <div class="q-body">
+      <div class="q-tag">LLM · context window</div>
+      <h3 class="q-text">Which best describes an LLM's <em>context window</em>?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">The user-interface area where the conversation is displayed.</span></li>
+        <li class="option correct"><span class="opt-letter">b</span><span class="opt-text">A fixed-size budget of tokens the model can attend to in one call — shared by the system prompt, conversation history, tool outputs, and the response.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">The amount of RAM installed on the machine running the application.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">A timeout in seconds that limits how long the model is allowed to generate.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q10 ═══════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 10</div>
+    <div class="q-body">
+      <div class="q-tag">LLM · tool use</div>
+      <h3 class="q-text">How does a tool-using (function-calling) LLM actually "use" a tool?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">The model executes the tool directly inside its own weights at inference time.</span></li>
+        <li class="option correct"><span class="opt-letter">b</span><span class="opt-text">The model emits a structured tool-call block in its output; the surrounding runtime parses it, runs the tool, and feeds the result back into the next turn.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">The user must manually copy-paste each tool's result back into the chat.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">Tools are hardcoded at training time and cannot change at inference.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q11 ═══════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 11</div>
+    <div class="q-body">
+      <div class="q-tag">Architecture · hardware</div>
+      <h3 class="q-text">Why does GPU memory (VRAM) matter for LLM inference?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">It determines the colour depth of the display.</span></li>
+        <li class="option correct"><span class="opt-letter">b</span><span class="opt-text">It limits the size of model and context that can be loaded on a single GPU.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text">It controls how fast the disk can be read.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">It has no effect — only system RAM matters for inference.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q12 ═══════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 12</div>
+    <div class="q-body">
+      <div class="q-tag">Agents · structure</div>
+      <h3 class="q-text">Which best describes "planning" in an agentic LLM system?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">Manually approving each individual token the model generates.</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">Compressing the conversation history to free up context.</span></li>
+        <li class="option correct"><span class="opt-letter">c</span><span class="opt-text">Deciding the sequence of actions the agent will take to reach a goal.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">Reverting the filesystem to a previous git snapshot.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q13 ═══════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 13</div>
+    <div class="q-body">
+      <div class="q-tag">Context · project files</div>
+      <h3 class="q-text">What is the purpose of a <code>CLAUDE.md</code> file in a project?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">To store the model's weights locally for offline use.</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">To encrypt API keys before they are committed to git.</span></li>
+        <li class="option correct"><span class="opt-letter">c</span><span class="opt-text">To provide project-specific instructions that are persistently injected into the agent's context.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">To log every prompt that has ever been sent to the model.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q14 ═══════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 14</div>
+    <div class="q-body">
+      <div class="q-tag">Context · hygiene</div>
+      <h3 class="q-text">What is the key difference between <code>/clear</code> and <code>/compact</code>?</h3>
+      <ul class="options">
+        <li class="option correct"><span class="opt-letter">a</span><span class="opt-text"><code>/clear</code> wipes the conversation context entirely; <code>/compact</code> summarizes prior turns to free space (lossy).</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">They do exactly the same thing — only the keybinding differs.</span></li>
+        <li class="option"><span class="opt-letter">c</span><span class="opt-text"><code>/clear</code> summarizes the context; <code>/compact</code> deletes it.</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">Neither command has any effect on the context window.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ Q15 ═══════════════════════ -->
+  <article class="question">
+    <div class="q-num">Q · 15</div>
+    <div class="q-body">
+      <div class="q-tag">Correctness · controls</div>
+      <h3 class="q-text">An LLM agent has built a single-cell RNA-seq pipeline that performs QC, doublet removal, clustering, and cell-type annotation. It runs to completion with exit code <code>0</code>, but you suspect the results may be subtly wrong. Which combination of controls is best suited to catching silent failures in <em>both</em> directions?</h3>
+      <ul class="options">
+        <li class="option"><span class="opt-letter">a</span><span class="opt-text">Two reference samples with known cell-type composition, to verify that the pipeline recovers the expected populations.</span></li>
+        <li class="option"><span class="opt-letter">b</span><span class="opt-text">Two empty-droplet / "no-cell" samples, to verify that the pipeline does not produce spurious clusters or call cells where there are none.</span></li>
+        <li class="option correct"><span class="opt-letter">c</span><span class="opt-text">One reference sample with a known cell-type mixture (the pipeline must recover it) plus one empty-droplet sample (the pipeline must not call any cells).</span></li>
+        <li class="option"><span class="opt-letter">d</span><span class="opt-text">Cross-validation by splitting the real samples and checking concordance between halves — no dedicated controls needed.</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ════════════════════════ KEY ═══════════════════════ -->
+  <!-- Answer key lives in a separate document: bioinformatics-quiz-answer-key.html -->
+
+  <footer class="footer">
+    <span>End of quiz · Answer key in separate document</span>
+    <span>v1.0 · 15 items</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

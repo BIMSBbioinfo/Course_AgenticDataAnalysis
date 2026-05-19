@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bioinformatics — Bash, LLMs &amp; Agents · Answer Key</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #FFFFFF;
+  --paper-2: #F0F0F0;
+  --ink: #000000;
+  --ink-soft: #555555;
+  --accent: #000000;
+  --accent-soft: #888888;
+  --rule: #000000;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,0,0,0.07) 1px, transparent 0);
+  background-size: 22px 22px;
+  background-attachment: fixed;
+}
+
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 72px 48px 96px;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.header {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 32px;
+  margin-bottom: 56px;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-size: clamp(40px, 7.5vw, 68px);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  margin: 0 0 22px 0;
+}
+
+h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.subtitle {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-size: 19px;
+  color: var(--ink-soft);
+  margin: 0 0 32px 0;
+  max-width: 540px;
+  line-height: 1.45;
+}
+
+.meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.meta span { display: inline-flex; gap: 8px; align-items: baseline; }
+.meta strong { color: var(--ink); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 10.5px; }
+
+/* ── QUICK-REFERENCE GRID ───────────────────────────── */
+.quick-key {
+  margin-bottom: 64px;
+}
+.quick-key h2 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 28px;
+  margin: 0 0 20px 0;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.key-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+.key-grid div {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--paper-2);
+  border-left: 2px solid var(--ink);
+}
+.key-grid div span:first-child {
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.key-grid div span:last-child {
+  color: var(--ink);
+  font-weight: 700;
+  text-transform: lowercase;
+}
+
+/* ── DETAILED ITEMS ─────────────────────────────────── */
+.detailed h2 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 28px;
+  margin: 0 0 32px 0;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.item {
+  margin-bottom: 44px;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.item-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  padding-top: 8px;
+  border-top: 2px solid var(--ink);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.item-body { min-width: 0; }
+
+.item-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.item-q {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 17px;
+  line-height: 1.4;
+  margin: 0 0 14px 0;
+  color: var(--ink-soft);
+  letter-spacing: -0.005em;
+}
+
+.item-q code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82em;
+  font-weight: 500;
+  background: var(--paper-2);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.item-a {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.05);
+  border: 1px solid var(--ink);
+  align-items: start;
+}
+
+.a-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  padding-top: 2px;
+}
+.a-letter::after {
+  content: " ✓";
+  font-weight: 700;
+}
+
+.a-text {
+  font-size: 16px;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--ink);
+}
+.a-text code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  background: var(--paper-2);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+/* ── FOOTER ─────────────────────────────────────────── */
+.footer {
+  margin-top: 72px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── PRINT ──────────────────────────────────────────── */
+@media print {
+  body { background: white; background-image: none; }
+  .page { padding: 24px; max-width: 100%; }
+  .item { break-inside: avoid; page-break-inside: avoid; }
+  .quick-key { page-break-after: always; }
+}
+
+/* ── MOBILE ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .page { padding: 44px 22px 64px; }
+  .item { grid-template-columns: 1fr; gap: 10px; }
+  .item-num {
+    border-top: none;
+    border-left: 2px solid var(--ink);
+    padding: 0 0 0 10px;
+    padding-top: 0;
+  }
+  .key-grid { grid-template-columns: repeat(3, 1fr); }
+  .meta { gap: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="eyebrow">
+      <span>Bioinformatics · Module Quiz</span>
+      <span>Answer Key · Instructor Copy</span>
+    </div>
+    <h1>Answer <em>key</em>.</h1>
+    <p class="subtitle">Correct responses for the 15-item diagnostic on Bash, LLMs, and agents. Quick reference grid first; full item breakdown below.</p>
+    <div class="meta">
+      <span><strong>Items</strong> 15</span>
+      <span><strong>Pairs with</strong> bioinformatics-quiz.html</span>
+    </div>
+  </header>
+
+  <!-- ════════════════════════ QUICK GRID ═══════════════ -->
+  <section class="quick-key">
+    <h2>At a glance.</h2>
+    <div class="key-grid">
+      <div><span>01</span><span>b</span></div>
+      <div><span>02</span><span>a</span></div>
+      <div><span>03</span><span>c</span></div>
+      <div><span>04</span><span>b</span></div>
+      <div><span>05</span><span>c</span></div>
+      <div><span>06</span><span>b</span></div>
+      <div><span>07</span><span>b</span></div>
+      <div><span>08</span><span>a</span></div>
+      <div><span>09</span><span>b</span></div>
+      <div><span>10</span><span>b</span></div>
+      <div><span>11</span><span>b</span></div>
+      <div><span>12</span><span>c</span></div>
+      <div><span>13</span><span>c</span></div>
+      <div><span>14</span><span>a</span></div>
+      <div><span>15</span><span>c</span></div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════ DETAILED ════════════════ -->
+  <section class="detailed">
+    <h2>Item by item.</h2>
+
+    <!-- 01 -->
+    <article class="item">
+      <div class="item-num">Q · 01</div>
+      <div class="item-body">
+        <div class="item-tag">Bash · environment</div>
+        <p class="item-q">Which best describes the <code>PATH</code> environment variable in Bash?</p>
+        <div class="item-a">
+          <span class="a-letter">b</span>
+          <span class="a-text">A list of directories that the shell searches when you type a command.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 -->
+    <article class="item">
+      <div class="item-num">Q · 02</div>
+      <div class="item-body">
+        <div class="item-tag">Bash · shell startup</div>
+        <p class="item-q">What is the role of <code>.bashrc</code>?</p>
+        <div class="item-a">
+          <span class="a-letter">a</span>
+          <span class="a-text">A script run automatically each time a new interactive Bash shell starts.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="item">
+      <div class="item-num">Q · 03</div>
+      <div class="item-body">
+        <div class="item-tag">Bash · permissions</div>
+        <p class="item-q">What does <code>sudo</code> do?</p>
+        <div class="item-a">
+          <span class="a-letter">c</span>
+          <span class="a-text">Runs a single command with elevated (root) privileges.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article class="item">
+      <div class="item-num">Q · 04</div>
+      <div class="item-body">
+        <div class="item-tag">Bash · sessions</div>
+        <p class="item-q">Which best describes <code>tmux</code>?</p>
+        <div class="item-a">
+          <span class="a-letter">b</span>
+          <span class="a-text">A terminal multiplexer that keeps sessions alive after you disconnect from SSH.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 -->
+    <article class="item">
+      <div class="item-num">Q · 05</div>
+      <div class="item-body">
+        <div class="item-tag">Bash · exit codes</div>
+        <p class="item-q">In Bash, what does an exit code of <code>0</code> conventionally mean?</p>
+        <div class="item-a">
+          <span class="a-letter">c</span>
+          <span class="a-text">The command completed successfully.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 06 -->
+    <article class="item">
+      <div class="item-num">Q · 06</div>
+      <div class="item-body">
+        <div class="item-tag">LLM · reasoning models</div>
+        <p class="item-q">What distinguishes a reasoning model (e.g. chain-of-thought or adaptive-thinking models) from a standard LLM?</p>
+        <div class="item-a">
+          <span class="a-letter">b</span>
+          <span class="a-text">Before producing the final answer it generates intermediate reasoning steps, and can spend more compute on harder problems.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 07 -->
+    <article class="item">
+      <div class="item-num">Q · 07</div>
+      <div class="item-body">
+        <div class="item-tag">LLM · representation</div>
+        <p class="item-q">What is a "token" in the context of an LLM?</p>
+        <div class="item-a">
+          <span class="a-letter">b</span>
+          <span class="a-text">A sub-word unit of text that the model processes; pricing and latency scale with it.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 08 -->
+    <article class="item">
+      <div class="item-num">Q · 08</div>
+      <div class="item-body">
+        <div class="item-tag">LLM · mechanism</div>
+        <p class="item-q">What does the attention mechanism allow a transformer to do?</p>
+        <div class="item-a">
+          <span class="a-letter">a</span>
+          <span class="a-text">Weight relationships between tokens across the context, not only adjacent ones.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 09 -->
+    <article class="item">
+      <div class="item-num">Q · 09</div>
+      <div class="item-body">
+        <div class="item-tag">LLM · context window</div>
+        <p class="item-q">Which best describes an LLM's <em>context window</em>?</p>
+        <div class="item-a">
+          <span class="a-letter">b</span>
+          <span class="a-text">A fixed-size budget of tokens the model can attend to in one call — shared by the system prompt, conversation history, tool outputs, and the response.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 10 -->
+    <article class="item">
+      <div class="item-num">Q · 10</div>
+      <div class="item-body">
+        <div class="item-tag">LLM · tool use</div>
+        <p class="item-q">How does a tool-using (function-calling) LLM actually "use" a tool?</p>
+        <div class="item-a">
+          <span class="a-letter">b</span>
+          <span class="a-text">The model emits a structured tool-call block in its output; the surrounding runtime parses it, runs the tool, and feeds the result back into the next turn.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 11 -->
+    <article class="item">
+      <div class="item-num">Q · 11</div>
+      <div class="item-body">
+        <div class="item-tag">Architecture · hardware</div>
+        <p class="item-q">Why does GPU memory (VRAM) matter for LLM inference?</p>
+        <div class="item-a">
+          <span class="a-letter">b</span>
+          <span class="a-text">It limits the size of model and context that can be loaded on a single GPU.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 12 -->
+    <article class="item">
+      <div class="item-num">Q · 12</div>
+      <div class="item-body">
+        <div class="item-tag">Agents · structure</div>
+        <p class="item-q">Which best describes "planning" in an agentic LLM system?</p>
+        <div class="item-a">
+          <span class="a-letter">c</span>
+          <span class="a-text">Deciding the sequence of actions the agent will take to reach a goal.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 13 -->
+    <article class="item">
+      <div class="item-num">Q · 13</div>
+      <div class="item-body">
+        <div class="item-tag">Context · project files</div>
+        <p class="item-q">What is the purpose of a <code>CLAUDE.md</code> file in a project?</p>
+        <div class="item-a">
+          <span class="a-letter">c</span>
+          <span class="a-text">To provide project-specific instructions that are persistently injected into the agent's context.</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 14 -->
+    <article class="item">
+      <div class="item-num">Q · 14</div>
+      <div class="item-body">
+        <div class="item-tag">Context · hygiene</div>
+        <p class="item-q">What is the key difference between <code>/clear</code> and <code>/compact</code>?</p>
+        <div class="item-a">
+          <span class="a-letter">a</span>
+          <span class="a-text"><code>/clear</code> wipes the conversation context entirely; <code>/compact</code> summarizes prior turns to free space (lossy).</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 15 -->
+    <article class="item">
+      <div class="item-num">Q · 15</div>
+      <div class="item-body">
+        <div class="item-tag">Correctness · controls</div>
+        <p class="item-q">An LLM agent has built a single-cell RNA-seq pipeline that performs QC, doublet removal, clustering, and cell-type annotation. It runs to completion with exit code <code>0</code>, but you suspect the results may be subtly wrong. Which combination of controls is best suited to catching silent failures in <em>both</em> directions?</p>
+        <div class="item-a">
+          <span class="a-letter">c</span>
+          <span class="a-text">One reference sample with a known cell-type mixture (the pipeline must recover it) plus one empty-droplet sample (the pipeline must not call any cells).</span>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <footer class="footer">
+    <span>Answer key · Instructor copy</span>
+    <span>v1.0 · 15 items</span>
+  </footer>
+
+</div>
+</body>
+</html>
